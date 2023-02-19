@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using Movies.API.Data;
 
 
@@ -15,6 +14,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Add seed data
+using(var scope = app.Services.CreateScope())
+{
+	var services = scope.ServiceProvider;
+	MoviesContextSeed.SeedAsync(services);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
